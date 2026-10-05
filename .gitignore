@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.env
+*.log
+src/imports/*.pdf
+src/imports/*.png
+
