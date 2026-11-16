@@ -5,13 +5,10 @@
   "start_url": "/?source=pwa",
   "scope": "/",
   "display": "standalone",
-  "display_override": ["standalone", "minimal-ui"],
   "orientation": "portrait-primary",
   "background_color": "#1b3a8f",
   "theme_color": "#1b3a8f",
   "lang": "vi",
-  "dir": "ltr",
-  "categories": ["medical", "health"],
   "icons": [
     {
       "src": "/icon-192.png",

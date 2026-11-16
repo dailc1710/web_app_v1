@@ -5,7 +5,7 @@ const CACHE = "tamtri-shell-v1"
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE).then((cache) =>
-      cache.addAll(["/", "/manifest.webmanifest", "/icon-192.png", "/icon-512.png"]),
+      cache.addAll(["/", "/manifest.json", "/icon-192.png", "/icon-512.png"]),
     ),
   )
   self.skipWaiting()

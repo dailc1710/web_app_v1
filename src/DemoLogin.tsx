@@ -1,5 +1,20 @@
-import { useState, type FormEvent } from "react"
+import { useEffect, useState, type FormEvent } from "react"
 import { publishSync } from "./sync"
+
+type BeforeInstallPromptEvent = Event & {
+  prompt: () => Promise<void>
+  userChoice: Promise<{ outcome: "accepted" | "dismissed" }>
+}
+
+function isStandaloneApp() {
+  if (typeof window === "undefined") return false
+  return (
+    window.matchMedia("(display-mode: standalone)").matches ||
+    window.matchMedia("(display-mode: minimal-ui)").matches ||
+    // iOS Safari
+    Boolean((window.navigator as Navigator & { standalone?: boolean }).standalone)
+  )
+}
 
 export const demoSessionKey = "tmmc-demo-session"
 const accountsKey = "tmmc-admin-accounts"
@@ -93,6 +108,37 @@ export default function DemoLogin({
   const [fullName, setFullName] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
   const [success, setSuccess] = useState("")
+  const [standalone, setStandalone] = useState(isStandaloneApp)
+  const [installEvent, setInstallEvent] =
+    useState<BeforeInstallPromptEvent | null>(null)
+  const [installHint, setInstallHint] = useState(false)
+
+  useEffect(() => {
+    setStandalone(isStandaloneApp())
+    const onBip = (event: Event) => {
+      event.preventDefault()
+      setInstallEvent(event as BeforeInstallPromptEvent)
+    }
+    window.addEventListener("beforeinstallprompt", onBip)
+    window.addEventListener("appinstalled", () => {
+      setInstallEvent(null)
+      setStandalone(true)
+    })
+    return () => window.removeEventListener("beforeinstallprompt", onBip)
+  }, [])
+
+  const installApp = async () => {
+    if (installEvent) {
+      await installEvent.prompt()
+      const choice = await installEvent.userChoice
+      if (choice.outcome === "accepted") {
+        setInstallEvent(null)
+        setStandalone(true)
+      }
+      return
+    }
+    setInstallHint(true)
+  }
 
   const submit = (event: FormEvent) => {
     event.preventDefault()
@@ -205,6 +251,29 @@ export default function DemoLogin({
               ? "Đăng nhập để tạo phiếu và theo dõi lịch khám"
               : "Tạo tài khoản bác sĩ hoặc cộng tác viên"}
           </p>
+          {!standalone && (
+            <div className="relative mt-4 rounded-xl border border-white/20 bg-white/10 p-3 backdrop-blur-sm desk:hidden">
+              <p className="text-[12px] font-semibold text-white">
+                Đang mở trong trình duyệt — chưa phải app
+              </p>
+              <p className="mt-1 text-[11px] leading-snug text-white/80">
+                Cài đặt để mở full màn hình, không còn thanh địa chỉ Chrome.
+              </p>
+              <button
+                type="button"
+                onClick={installApp}
+                className="mt-2.5 inline-flex min-h-9 items-center justify-center rounded-lg bg-white px-3 text-[12px] font-bold text-brand"
+              >
+                Cài đặt ứng dụng
+              </button>
+              {installHint && (
+                <p className="mt-2 text-[11px] leading-snug text-white/85">
+                  Chrome: menu ⋮ → <strong>Cài đặt ứng dụng</strong> / Thêm vào
+                  màn hình chính. Xóa shortcut cũ có logo Chrome rồi cài lại.
+                </p>
+              )}
+            </div>
+          )}
         </header>
 
         <form
