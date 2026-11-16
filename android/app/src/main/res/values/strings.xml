@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Tâm Trí Sài Gòn</string>
+    <string name="title_activity_main">Tâm Trí Sài Gòn</string>
+    <string name="package_name">com.tmmc.tamtri</string>
+    <string name="custom_url_scheme">com.tmmc.tamtri</string>
+</resources>

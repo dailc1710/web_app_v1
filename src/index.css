@@ -6,7 +6,7 @@
   --font-sans: 'Be Vietnam Pro', ui-sans-serif, system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 
-  --color-ground: #eef1f6;
+  --color-ground: #e8eef8;
   --color-ink: #14213d;
   --color-ink-soft: #4a5a78;
   --color-line: #d5dced;
@@ -22,29 +22,203 @@
 }
 
 html {
-  scrollbar-gutter: stable;
+  height: 100%;
 }
 
 body {
-  background-color: var(--color-ground);
+  min-height: 100%;
+  min-height: 100dvh;
+  margin: 0;
   color: var(--color-ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  background:
+    radial-gradient(120% 80% at 100% -10%, rgba(42, 86, 198, 0.16), transparent 55%),
+    radial-gradient(90% 60% at -15% 20%, rgba(27, 58, 143, 0.12), transparent 50%),
+    linear-gradient(180deg, #f4f7fc 0%, var(--color-ground) 45%, #e4ebf6 100%);
+  background-attachment: fixed;
 }
 
-/* Hide scrollbars until scrolling */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: transparent transparent;
-}
-*:hover,
-*:focus-within {
-  scrollbar-color: #c3ccdf transparent;
+#root {
+  min-height: 100%;
+  min-height: 100dvh;
 }
 
 ::selection {
   background: var(--color-brand-mid);
   color: #fff;
+}
+
+.app-screen {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  padding-top: env(safe-area-inset-top);
+  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.88);
+  border-bottom: 1px solid var(--color-line);
+}
+
+.app-content {
+  flex: 1;
+  min-width: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: calc(72px + env(safe-area-inset-bottom));
+}
+
+.chip-scroll {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+  width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+}
+
+.chip-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.chip-scroll > * {
+  touch-action: pan-x;
+  flex: 0 0 auto;
+}
+
+.app-tabbar {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 50;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  padding: 6px 8px calc(6px + env(safe-area-inset-bottom));
+  background: rgba(255, 255, 255, 0.96);
+  border-top: 1px solid var(--color-line);
+  backdrop-filter: blur(14px);
+}
+
+.app-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-height: 48px;
+  border-radius: 12px;
+  color: var(--color-ink-soft);
+  transition: color 160ms ease, background-color 160ms ease, transform 120ms ease;
+}
+
+.app-tab[aria-pressed="true"] {
+  color: var(--color-brand);
+  background: var(--color-brand-tint);
+}
+
+.app-tab:active {
+  transform: scale(0.96);
+}
+
+.app-input {
+  height: 44px;
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--color-line);
+  background: rgba(255, 255, 255, 0.9);
+  padding-top: 0;
+  padding-bottom: 0;
+  font-size: 15px;
+  color: var(--color-ink);
+  outline: none;
+  transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+}
+
+.app-input:focus {
+  border-color: var(--color-brand-mid);
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(42, 86, 198, 0.15);
+}
+
+.app-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  transition: transform 120ms ease, background-color 160ms ease, opacity 160ms ease;
+}
+
+.app-btn:active {
+  transform: scale(0.98);
+}
+
+.app-btn-primary {
+  background: var(--color-brand);
+  color: #fff;
+}
+
+.app-btn-primary:hover {
+  background: var(--color-brand-deep);
+}
+
+.app-btn-primary:disabled {
+  cursor: not-allowed;
+  background: var(--color-line);
+  color: rgba(74, 90, 120, 0.55);
+}
+
+.app-fade {
+  animation: app-fade-in 220ms ease both;
+}
+
+@keyframes app-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.app-action-bar {
+  position: sticky;
+  bottom: calc(64px + env(safe-area-inset-bottom));
+  z-index: 30;
+  margin-top: 12px;
+  border: 1px solid var(--color-line);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 24px rgba(20, 33, 61, 0.1);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+*:hover,
+*:focus-within {
+  scrollbar-color: #c3ccdf transparent;
 }
 
 @media print {
