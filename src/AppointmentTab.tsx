@@ -1,4 +1,10 @@
-import { useEffect, useMemo, useState } from "react"
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type RefObject,
+} from "react"
 import { subscribeSync } from "./sync"
 
 type Appointment = {
@@ -107,12 +113,69 @@ function loadQueue(): Array<Appointment & { status: QueueStatus }> {
   )
 }
 
+function useChipDragScroll(ref: RefObject<HTMLDivElement | null>) {
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+
+    let dragging = false
+    let moved = false
+    let startX = 0
+    let startScroll = 0
+
+    const onPointerDown = (event: PointerEvent) => {
+      dragging = true
+      moved = false
+      startX = event.clientX
+      startScroll = el.scrollLeft
+      el.classList.add("is-dragging")
+    }
+
+    const onPointerMove = (event: PointerEvent) => {
+      if (!dragging) return
+      const delta = event.clientX - startX
+      if (Math.abs(delta) > 6) moved = true
+      el.scrollLeft = startScroll - delta
+    }
+
+    const stop = () => {
+      dragging = false
+      el.classList.remove("is-dragging")
+    }
+
+    const onClickCapture = (event: MouseEvent) => {
+      if (!moved) return
+      event.preventDefault()
+      event.stopPropagation()
+      moved = false
+    }
+
+    el.addEventListener("pointerdown", onPointerDown)
+    el.addEventListener("pointermove", onPointerMove)
+    el.addEventListener("pointerup", stop)
+    el.addEventListener("pointercancel", stop)
+    el.addEventListener("pointerleave", stop)
+    el.addEventListener("click", onClickCapture, true)
+
+    return () => {
+      el.removeEventListener("pointerdown", onPointerDown)
+      el.removeEventListener("pointermove", onPointerMove)
+      el.removeEventListener("pointerup", stop)
+      el.removeEventListener("pointercancel", stop)
+      el.removeEventListener("pointerleave", stop)
+      el.removeEventListener("click", onClickCapture, true)
+    }
+  }, [ref])
+}
+
 export default function AppointmentTab(_: {
   patientName: string
   patientId: string
 }) {
   const [queue, setQueue] = useState(loadQueue)
   const [filter, setFilter] = useState<FilterStatus>("all")
+  const chipRef = useRef<HTMLDivElement>(null)
+  useChipDragScroll(chipRef)
   const refresh = () => setQueue(loadQueue())
 
   useEffect(() => {
@@ -154,11 +217,11 @@ export default function AppointmentTab(_: {
         )}
       </div>
 
-      <div className="grid grid-cols-2 gap-2">
+      <div ref={chipRef} className="chip-scroll -mx-1 px-1">
         <button
           type="button"
           onClick={() => setFilter("all")}
-          className={`flex min-h-11 items-center justify-center rounded-xl border px-3 text-xs font-bold transition-colors ${
+          className={`flex h-10 shrink-0 items-center rounded-full border px-3.5 text-xs font-bold transition-colors ${
             filter === "all"
               ? "border-brand bg-brand text-white"
               : "border-line bg-white text-ink-soft"
@@ -173,7 +236,7 @@ export default function AppointmentTab(_: {
             onClick={() =>
               setFilter(filter === status ? "all" : status)
             }
-            className={`flex min-h-11 items-center justify-center gap-2 rounded-xl border px-3 text-xs font-bold transition-colors ${
+            className={`flex h-10 shrink-0 items-center gap-2 rounded-full border px-3.5 text-xs font-bold transition-colors ${
               filter === status
                 ? `${statusConfig[status].className} ring-2 ring-brand/15`
                 : "border-line bg-white text-ink-soft"
@@ -182,9 +245,7 @@ export default function AppointmentTab(_: {
             <span
               className={`h-2 w-2 shrink-0 rounded-full ${statusConfig[status].dot}`}
             />
-            <span className="truncate">
-              {statusConfig[status].label} · {counts[status]}
-            </span>
+            {statusConfig[status].label} · {counts[status]}
           </button>
         ))}
       </div>
