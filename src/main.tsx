@@ -11,8 +11,11 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("/sw.js").catch(() => {
-      /* ignore offline install helper failures */
-    })
+    navigator.serviceWorker
+      .register("/sw.js", { scope: "/", updateViaCache: "none" })
+      .then((reg) => reg.update())
+      .catch(() => {
+        /* ignore offline install helper failures */
+      })
   })
 }

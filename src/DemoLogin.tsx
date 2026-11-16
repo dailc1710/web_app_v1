@@ -254,23 +254,26 @@ export default function DemoLogin({
           {!standalone && (
             <div className="relative mt-4 rounded-xl border border-white/20 bg-white/10 p-3 backdrop-blur-sm desk:hidden">
               <p className="text-[12px] font-semibold text-white">
-                Đang mở trong trình duyệt — chưa phải app
+                Icon có logo Chrome = mới chỉ là lối tắt web
               </p>
               <p className="mt-1 text-[11px] leading-snug text-white/80">
-                Cài đặt để mở full màn hình, không còn thanh địa chỉ Chrome.
+                Phải chọn đúng “Cài đặt ứng dụng” (Install app). Đừng chọn
+                “Thêm vào màn hình chính” — cách đó luôn gắn huy hiệu Chrome.
               </p>
               <button
                 type="button"
                 onClick={installApp}
                 className="mt-2.5 inline-flex min-h-9 items-center justify-center rounded-lg bg-white px-3 text-[12px] font-bold text-brand"
               >
-                Cài đặt ứng dụng
+                {installEvent ? "Cài đặt ứng dụng" : "Xem cách cài app"}
               </button>
-              {installHint && (
-                <p className="mt-2 text-[11px] leading-snug text-white/85">
-                  Chrome: menu ⋮ → <strong>Cài đặt ứng dụng</strong> / Thêm vào
-                  màn hình chính. Xóa shortcut cũ có logo Chrome rồi cài lại.
-                </p>
+              {(installHint || !installEvent) && (
+                <ol className="mt-2 list-decimal space-y-1 pl-4 text-[11px] leading-snug text-white/85">
+                  <li>Xóa icon cũ có logo Chrome trên màn hình chính</li>
+                  <li>Chrome → menu ⋮ → Cài đặt ứng dụng / Install app</li>
+                  <li>Không chọn Add to Home screen / Thêm lối tắt</li>
+                  <li>Mở lại site, đợi vài giây rồi thử nút phía trên</li>
+                </ol>
               )}
             </div>
           )}

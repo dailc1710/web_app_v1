@@ -1,14 +1,16 @@
 {
+  "id": "/",
   "name": "Tâm Trí Sài Gòn",
   "short_name": "Tâm Trí",
   "description": "Phiếu chỉ định và lịch khám Tâm Trí Sài Gòn",
-  "start_url": "/?source=pwa",
+  "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "orientation": "portrait-primary",
+  "orientation": "any",
   "background_color": "#1b3a8f",
   "theme_color": "#1b3a8f",
   "lang": "vi",
+  "prefer_related_applications": false,
   "icons": [
     {
       "src": "/icon-192.png",
