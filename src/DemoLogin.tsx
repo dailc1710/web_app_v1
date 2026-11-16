@@ -208,7 +208,7 @@ export default function DemoLogin({
 
       <form
         onSubmit={mode === "login" ? submit : register}
-        className="app-fade relative -mt-4 flex flex-1 flex-col gap-4 rounded-t-[24px] bg-white/95 px-5 pb-[calc(24px+env(safe-area-inset-bottom))] pt-6 shadow-[0_-8px_30px_rgba(20,33,61,0.08)]"
+        className="app-fade relative -mt-4 flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto rounded-t-[24px] bg-white/95 px-5 pb-[calc(24px+env(safe-area-inset-bottom))] pt-6 shadow-[0_-8px_30px_rgba(20,33,61,0.08)]"
       >
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-extrabold text-ink">

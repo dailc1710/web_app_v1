@@ -217,13 +217,13 @@ export default function AppointmentTab(_: {
         )}
       </div>
 
-      <div ref={chipRef} className="chip-scroll -mx-1 px-1">
+      <div ref={chipRef} className="chip-scroll -mx-1 mt-1 px-1">
         <button
           type="button"
           onClick={() => setFilter("all")}
-          className={`flex h-10 shrink-0 items-center rounded-full border px-3.5 text-xs font-bold transition-colors ${
+          className={`inline-flex h-10 shrink-0 items-center justify-center rounded-full border px-3.5 text-xs font-bold leading-none transition-colors ${
             filter === "all"
-              ? "border-brand bg-brand text-white"
+              ? "border-brand bg-brand text-white shadow-[0_0_0_3px_rgba(27,58,143,0.12)]"
               : "border-line bg-white text-ink-soft"
           }`}
         >
@@ -236,9 +236,9 @@ export default function AppointmentTab(_: {
             onClick={() =>
               setFilter(filter === status ? "all" : status)
             }
-            className={`flex h-10 shrink-0 items-center gap-2 rounded-full border px-3.5 text-xs font-bold transition-colors ${
+            className={`inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-full border px-3.5 text-xs font-bold leading-none transition-colors ${
               filter === status
-                ? `${statusConfig[status].className} ring-2 ring-brand/15`
+                ? `${statusConfig[status].className} shadow-[0_0_0_3px_rgba(27,58,143,0.12)]`
                 : "border-line bg-white text-ink-soft"
             }`}
           >
