@@ -695,26 +695,26 @@ function PatientApp() {
       <header className="app-topbar">
         <div className="flex items-center justify-between gap-3 px-4 py-3">
           <div className="min-w-0">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-brand-mid lg:hidden">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-brand-mid desk:hidden">
               Tâm Trí
             </p>
-            <h1 className="truncate text-lg font-extrabold text-ink lg:text-[17px] lg:font-bold">
+            <h1 className="truncate text-lg font-extrabold text-ink desk:text-[17px] desk:font-bold">
               {tabMeta[activeTab].title}
             </h1>
-            <p className="mt-0.5 hidden text-[12px] text-ink-soft lg:block">
+            <p className="mt-0.5 hidden text-[12px] text-ink-soft desk:block">
               Cổng làm việc nội bộ · Bệnh viện Tâm Trí
             </p>
           </div>
           <button
             type="button"
             onClick={() => setActiveTab("account")}
-            className="flex shrink-0 items-center gap-2 rounded-full border border-line bg-white py-1 pl-1 pr-3 lg:rounded-lg lg:px-2.5 lg:py-1.5"
+            className="flex shrink-0 items-center gap-2 rounded-full border border-line bg-white py-1 pl-1 pr-3 desk:rounded-lg desk:px-2.5 desk:py-1.5"
             aria-label="Mở tài khoản"
           >
-            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-brand text-sm font-bold text-white lg:h-7 lg:w-7 lg:rounded-md lg:text-xs">
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-brand text-sm font-bold text-white desk:h-7 desk:w-7 desk:rounded-md desk:text-xs">
               {session.name.charAt(0).toUpperCase()}
             </span>
-            <span className="max-w-[120px] truncate text-xs font-semibold text-ink lg:max-w-[160px]">
+            <span className="max-w-[120px] truncate text-xs font-semibold text-ink desk:max-w-[160px]">
               {session.name}
             </span>
           </button>
@@ -814,7 +814,7 @@ function PatientApp() {
 
         <div hidden={activeTab !== "prescription"} className="app-fade">
           {/* Mobile / tablet: app-style accordion */}
-          <div className="space-y-4 pb-8 lg:hidden">
+          <div className="space-y-4 pb-8 desk:hidden">
             <section className="rounded-2xl border border-line bg-white/95 p-4 md:p-5">
               <h2 className="mb-3 text-sm font-extrabold text-ink">
                 Thông tin bệnh nhân
@@ -1070,7 +1070,7 @@ function PatientApp() {
           </div>
 
           {/* Desktop: clinical workstation */}
-          <div className="desk-frame hidden lg:grid">
+          <div className="desk-frame hidden desk:grid">
             <div className="space-y-3">
               <section className="desk-panel">
                 <div className="desk-section-title">
@@ -1281,7 +1281,7 @@ function PatientApp() {
       </main>
 
       <nav aria-label="Điều hướng" className="app-tabbar no-print">
-        <div className="mb-4 hidden border-b border-white/15 px-2 pb-4 lg:block">
+        <div className="mb-4 hidden border-b border-white/15 px-2 pb-4 desk:block">
           <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-white/55">
             Tâm Trí
           </p>
@@ -1308,10 +1308,10 @@ function PatientApp() {
             <span className="flex h-8 w-8 shrink-0 items-center justify-center">
               <TabIcon id={id} />
             </span>
-            <span className="text-[10px] font-semibold leading-none lg:hidden">
+            <span className="text-[10px] font-semibold leading-none desk:hidden">
               {tabMeta[id].short}
             </span>
-            <span className="app-tab-label hidden lg:inline">
+            <span className="app-tab-label hidden desk:inline">
               {tabMeta[id].title}
             </span>
           </button>

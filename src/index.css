@@ -21,6 +21,10 @@
   --color-ok: #1f8a5a;
 }
 
+/* Desktop workstation only: wide screen + mouse/trackpad.
+   Phones (Android/iOS), even with "Desktop site", stay on mobile app UI. */
+@custom-variant desk (@media (min-width: 1280px) and (hover: hover) and (pointer: fine));
+
 html,
 body,
 #root {
@@ -236,7 +240,7 @@ body {
   scrollbar-color: #c3ccdf transparent;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1280px) and (hover: hover) and (pointer: fine) {
   body {
     background: #dfe6f2;
   }
