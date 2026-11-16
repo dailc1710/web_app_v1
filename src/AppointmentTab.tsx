@@ -202,7 +202,7 @@ export default function AppointmentTab(_: {
 
   return (
     <section className="space-y-3">
-      <div className="flex items-center justify-between px-0.5">
+      <div className="flex items-center justify-between px-0.5 lg:mb-1">
         <p className="text-sm text-ink-soft">
           {queue.length} bệnh nhân trong hàng đợi
         </p>

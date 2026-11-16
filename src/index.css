@@ -54,6 +54,14 @@ body {
   overflow: hidden;
 }
 
+.app-shell {
+  height: 100%;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
 .app-topbar {
   flex-shrink: 0;
   z-index: 40;
@@ -226,6 +234,210 @@ body {
 *:hover,
 *:focus-within {
   scrollbar-color: #c3ccdf transparent;
+}
+
+@media (min-width: 1024px) {
+  body {
+    background: #dfe6f2;
+  }
+
+  .app-shell {
+    display: grid;
+    grid-template-columns: 232px minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    grid-template-areas:
+      "nav top"
+      "nav main";
+  }
+
+  .app-shell .app-topbar {
+    grid-area: top;
+    padding-top: 0;
+    background: #fff;
+    border-bottom: 1px solid var(--color-line);
+    backdrop-filter: none;
+  }
+
+  .app-shell .app-topbar > div {
+    width: 100%;
+    padding-inline: 1.5rem;
+    padding-block: 0.7rem;
+  }
+
+  .app-shell .app-content {
+    grid-area: main;
+    padding-inline: 1.25rem;
+    padding-top: 1rem;
+    padding-bottom: 1.25rem;
+    background:
+      linear-gradient(180deg, #e8eef8 0%, #dfe6f2 100%);
+  }
+
+  .app-content-inner {
+    max-width: none;
+    margin-inline: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .app-shell .app-tabbar {
+    grid-area: nav;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 4px;
+    width: 232px;
+    height: 100%;
+    min-height: 0;
+    padding: 1.1rem 0.85rem calc(1.1rem + env(safe-area-inset-bottom, 0px));
+    border-top: none;
+    border-right: none;
+    box-shadow: 8px 0 24px rgba(20, 33, 61, 0.12);
+    background: linear-gradient(180deg, #142a6b 0%, #1b3a8f 55%, #163278 100%);
+  }
+
+  .app-shell .app-tab {
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.7rem;
+    min-height: 42px;
+    padding: 0 0.85rem;
+    width: 100%;
+    color: rgba(255, 255, 255, 0.72);
+    border-radius: 10px;
+  }
+
+  .app-shell .app-tab[aria-pressed="true"] {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.14);
+  }
+
+  .app-shell .app-tab:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .app-shell .app-tab-label {
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  .app-shell .app-action-bar {
+    position: sticky;
+    top: 0;
+    bottom: auto;
+    margin-top: 0;
+    border: none;
+    border-radius: 12px;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+
+  .desk-frame {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 1rem;
+    align-items: start;
+    min-height: calc(100vh - 5.5rem);
+  }
+
+  .desk-panel {
+    border: 1px solid var(--color-line);
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(20, 33, 61, 0.04);
+  }
+
+  .desk-section-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    border-bottom: 1px solid var(--color-line);
+    padding: 0.65rem 1rem;
+    background: #f7f9fc;
+  }
+
+  .desk-choice-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.15rem 0.75rem;
+  }
+
+  .desk-choice {
+    display: flex;
+    min-height: 34px;
+    cursor: pointer;
+    align-items: center;
+    gap: 0.55rem;
+    border-radius: 6px;
+    padding: 0.2rem 0.35rem;
+    font-size: 13px;
+    line-height: 1.3;
+  }
+
+  .desk-choice:hover {
+    background: var(--color-brand-tint);
+  }
+
+  .desk-jump {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .desk-jump a {
+    border: 1px solid var(--color-line);
+    border-radius: 999px;
+    background: #fff;
+    padding: 0.25rem 0.65rem;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--color-ink-soft);
+    text-decoration: none;
+  }
+
+  .desk-jump a:hover {
+    border-color: var(--color-brand-mid);
+    color: var(--color-brand);
+    background: var(--color-brand-tint);
+  }
+
+  .desk-panel .app-input {
+    height: 36px;
+    border-radius: 8px;
+    font-size: 13px;
+  }
+
+  .desk-panel label.text-\[12px\] {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--color-ink-soft);
+  }
+
+  .login-desktop {
+    display: grid !important;
+    place-items: center;
+    padding: 2rem;
+    overflow: auto;
+  }
+
+  .login-desktop > .login-shell {
+    width: min(100%, 440px);
+    flex: 0 0 auto;
+    height: auto;
+    max-height: none;
+    overflow: visible;
+    border-radius: 24px;
+    border: 1px solid var(--color-line);
+    box-shadow: 0 24px 60px rgba(20, 33, 61, 0.14);
+    background: #fff;
+  }
 }
 
 @media print {
